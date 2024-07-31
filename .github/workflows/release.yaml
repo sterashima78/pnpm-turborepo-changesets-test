@@ -39,7 +39,9 @@ jobs:
 
       - continue-on-error: true # pre モードかどうかをチェック
         id: check-mode
-        run: pnpm exec changeset pre exit
+        run: |
+          pnpm exec changeset pre exit
+          git stash
         shell: bash
 
       - name: publish (pre-release)
