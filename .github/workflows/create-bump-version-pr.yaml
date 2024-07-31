@@ -37,10 +37,10 @@ jobs:
         shell: bash
       - if: ${{ inputs.type == 'release' }}
         continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
-        run: pnpm exec changeset pre rc
+        run: pnpm exec changeset pre exit
         shell: bash
       - if: ${{ inputs.type != 'release' }}
-        run: pnpm exec changeset pre enter next
+        run: pnpm exec changeset pre enter rc
         shell: bash
 
       - name: Create Release Pull Request
