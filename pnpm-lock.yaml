@@ -18,6 +18,16 @@ importers:
         specifier: 2.0.10
         version: 2.0.10
 
+  packages/test1:
+    devDependencies:
+      '@sterashima78/test2':
+        specifier: workspace:*
+        version: link:../test2
+
+  packages/test2: {}
+
+  packages/test3: {}
+
 packages:
 
   '@babel/runtime@7.25.0':
