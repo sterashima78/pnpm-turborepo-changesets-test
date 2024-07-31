@@ -1,5 +1,11 @@
 # @sterashima78/test3
 
+## 0.0.3
+
+### Patch Changes
+
+- f152b57: test
+
 ## 0.0.2
 
 ### Patch Changes
