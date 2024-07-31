@@ -1,6 +1,6 @@
 {
   "name": "@sterashima78/test2",
-  "version": "0.0.5-rc.0",
+  "version": "0.0.5-rc.1",
   "scripts": {
     "dev": "echo 'Add dev script here'",
     "build": "echo 'Add build script here'",
