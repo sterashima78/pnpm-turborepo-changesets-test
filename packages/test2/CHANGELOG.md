@@ -1,5 +1,11 @@
 # @sterashima78/test2
 
+## 0.0.4
+
+### Patch Changes
+
+- 9342d3a: test2
+
 ## 0.0.3
 
 ### Patch Changes
