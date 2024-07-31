@@ -1,5 +1,11 @@
 # @sterashima78/test1
 
+## 0.0.4-rc.0
+
+### Patch Changes
+
+- 66b29ba: test3
+
 ## 0.0.3
 
 ### Patch Changes
