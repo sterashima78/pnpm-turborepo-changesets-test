@@ -1,5 +1,11 @@
 # @sterashima78/test3
 
+## 0.0.2-rc.0
+
+### Patch Changes
+
+- a617dd4: bump private
+
 ## 0.0.1
 
 ### Patch Changes
