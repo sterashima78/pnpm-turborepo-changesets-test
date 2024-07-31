@@ -43,9 +43,6 @@ jobs:
           pnpm exec changeset pre exit
           git stash
         shell: bash
-      
-      - run: pnpm exec changeset tag
-        shell: bash
 
       - name: publish (pre-release)
         if: ${{ steps.check-mode.outcome == 'success' }}
@@ -60,5 +57,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: publish tags
-        run: git push --follow-tag
+        run: |
+          pnpm exec changeset tag
+          git push --follow-tag
         shell: bash
