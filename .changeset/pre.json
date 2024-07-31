@@ -1,0 +1,13 @@
+{
+  "mode": "pre",
+  "tag": "rc",
+  "initialVersions": {
+    "@sterashima78/test1": "0.0.1",
+    "@sterashima78/test2": "0.0.1",
+    "@sterashima78/test3": "0.0.1"
+  },
+  "changesets": [
+    "eleven-planets-greet",
+    "empty-parrots-invite"
+  ]
+}

@@ -1,5 +1,11 @@
 # @sterashima78/test2
 
+## 0.0.2-rc.0
+
+### Patch Changes
+
+- 33465c1: bump public
+
 ## 0.0.1
 
 ### Patch Changes
