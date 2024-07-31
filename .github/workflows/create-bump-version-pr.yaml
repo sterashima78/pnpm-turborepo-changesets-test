@@ -35,6 +35,14 @@ jobs:
         shell: bash
       - run: pnpm install
         shell: bash
+      - if: ${{ inputs.type == 'release' }}
+        continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
+        run: pnpm exec changeset pre rc
+        shell: bash
+      - if: ${{ inputs.type != 'release' }}
+        run: pnpm exec changeset pre enter next
+        shell: bash
+
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:

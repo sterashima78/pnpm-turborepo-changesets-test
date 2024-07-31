@@ -1,0 +1,59 @@
+name: release
+env:
+  NODE_OPTIONS: "--max_old_space_size=6144"
+  PUPPETEER_SKIP_DOWNLOAD: "true"
+
+on:
+  # 任意のタイミング
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  pre-release:
+    ## PR がマージされて、PR 元ブランチが changeset-release/main の時 か workflow_dispatch
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged && github.event.pull_request.head.ref == 'changeset-release/main') }}
+    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+      - run: corepack enable
+        shell: bash
+      - run: pnpm install
+        shell: bash
+      - name: setting npmrc
+        run: |
+          echo '@sterashima78:registry=https://npm.pkg.github.com/' > ~/.npmrc
+          echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' >> ~/.npmrc
+
+      - continue-on-error: true # pre モードかどうかをチェック
+        id: check-mode
+        run: pnpm exec changeset pre exit
+        shell: bash
+
+      - name: publish (pre-release)
+        if: ${{ steps.check-mode.outcome == 'success' }}
+        run: pnpm publish -r --tag next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: publish (release)
+        if: ${{ steps.check-mode.outcome == 'failure' }}
+        run: pnpm publish -r --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: publish tags
+        run: git push --follow-tags
+        shell: bash
