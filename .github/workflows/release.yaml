@@ -30,7 +30,7 @@ jobs:
           node-version-file: ".node-version"
       - run: corepack enable
         shell: bash
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile --prefer-offline
         shell: bash
       - name: setting npmrc
         run: |

@@ -33,20 +33,23 @@ jobs:
           node-version-file: ".node-version"
       - run: corepack enable
         shell: bash
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile --prefer-offline
         shell: bash
 
-      - continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
+      # changesets/action は今のモード踏まえて実行するかどうかを判断するため
+      # 対象のモードに設定する必要がある
+      - if: ${{ inputs.type == 'release' }}
+        continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
         run: pnpm exec changeset pre exit
         shell: bash
-      - if: ${{ inputs.type != 'release' }} # release じゃなかったら再度 pre モードに入る
+      - if: ${{ inputs.type != 'release' }}
         run: pnpm exec changeset pre enter rc
         shell: bash
+
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
           title: "chore: release"
           commit: "chore: release"
-          version: "sh ./scripts/version.sh ${{ inputs.type }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
