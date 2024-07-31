@@ -38,8 +38,7 @@ jobs:
 
       # changesets/action は今のモード踏まえて実行するかどうかを判断するため
       # 対象のモードに設定する必要がある
-      - if: ${{ inputs.type == 'release' }}
-        continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
+      - continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
         run: pnpm exec changeset pre exit
         shell: bash
       - if: ${{ inputs.type != 'release' }}
