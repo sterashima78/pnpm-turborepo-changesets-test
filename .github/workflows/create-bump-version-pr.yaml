@@ -51,5 +51,6 @@ jobs:
         with:
           title: "chore: release"
           commit: "chore: release"
+          version: "sh ./scripts/version.sh ${{ inputs.type }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
