@@ -9,8 +9,5 @@
   },
   "devDependencies": {
     "@sterashima78/test2": "workspace:*"
-  },
-  "peerDependencies": {
-    "@sterashima78/test2": "workspace:*"
   }
 }
