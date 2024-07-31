@@ -35,11 +35,10 @@ jobs:
         shell: bash
       - run: pnpm install
         shell: bash
-      - if: ${{ inputs.type == 'release' }}
-        continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
+      - continue-on-error: true # pre モードになっていないときはエラーになるがその時は続行でよい
         run: pnpm exec changeset pre exit
         shell: bash
-      - if: ${{ inputs.type != 'release' }}
+      - if: ${{ inputs.type != 'release' }} # release じゃなかったら再度 pre モードに入る
         run: pnpm exec changeset pre enter rc
         shell: bash
 
@@ -48,6 +47,6 @@ jobs:
         with:
           title: "chore: release"
           commit: "chore: release"
-          version: "./scripts/version.sh"
+          version: "sh ./scripts/version.sh"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
