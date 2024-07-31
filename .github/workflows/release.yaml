@@ -43,6 +43,9 @@ jobs:
           pnpm exec changeset pre exit
           git stash
         shell: bash
+      
+      - run: pnpm exec changeset tag
+        shell: bash
 
       - name: publish (pre-release)
         if: ${{ steps.check-mode.outcome == 'success' }}
