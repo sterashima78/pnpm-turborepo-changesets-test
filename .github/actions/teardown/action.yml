@@ -1,0 +1,30 @@
+name: "teardown"
+inputs:
+  github_token:
+    description: GITHUB_TOKEN
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: prune store
+      if: ${{ always() && !cancelled() }}
+      run: |
+        pnpm config set store-dir .cache/pnpm-store
+        pnpm store prune
+      shell: bash
+    - name: remove cache
+      continue-on-error: true
+      if: ${{ always() && !cancelled() }}
+      shell: bash
+      run: |
+        gh extension install actions/gh-actions-cache
+        gh actions-cache delete "${BUILD_CACHE_KEY}" --confirm
+      env:
+        BUILD_CACHE_KEY: cache-${{ github.ref_name }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+    - name: save build cache
+      if: ${{ always() && !cancelled() }}
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      with:
+        path: .cache
+        key: cache-${{ github.ref_name }}

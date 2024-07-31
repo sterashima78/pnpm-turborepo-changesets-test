@@ -1,0 +1,23 @@
+name: "setup"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
+      with:
+        node-version-file: ".node-version"
+    - run: corepack enable
+      shell: bash
+    - name: restore build cache
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      with:
+        path: .cache
+        key: cache-${{ github.ref_name }}
+        restore-keys: cache-develop
+    - run: pnpm config set store-dir .cache/pnpm-store
+      shell: bash
+    - run: pnpm i --frozen-lockfile --prefer-offline
+      shell: bash
+      env:
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+    - run: pnpm config delete store-dir
+      shell: bash

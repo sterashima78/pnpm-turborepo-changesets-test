@@ -1,0 +1,44 @@
+name: Create Release PR
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: "リリース種別"
+        required: true
+        default: "pre-release"
+        type: choice
+        options:
+          - pre-release
+          - release
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-bump-version-pr:
+    timeout-minutes: 5
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+      - run: corepack enable
+        shell: bash
+      - run: pnpm install
+        shell: bash
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        with:
+          title: "chore: release"
+          commit: "chore: release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
