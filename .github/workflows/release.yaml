@@ -60,5 +60,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: publish tags
-        run: git push --follow-tags
+        run: git push --follow-tag
         shell: bash
